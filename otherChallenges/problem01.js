@@ -4,6 +4,8 @@ return true if every value in the array has it's corresponding value squared in
  the second array. The frequency of values must be the same.
 */
 
+"use strict"; 
+
 // Time complexity O(n)
 function same(arr1, arr2){ 
   if(arr1.length !== arr2.length){ 
@@ -29,6 +31,8 @@ function same(arr1, arr2){
 }
 
 console.log(same([1,2,2,3], [1,9,4,4]));
+
+module.exports = same; 
 
 
 /* ================================
