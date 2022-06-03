@@ -21,6 +21,8 @@ function sumZero(array){
   }
 }
 
+console.log(sumZero([-3,-2,-1,0,1,2,3]));
+console.log(sumZero([-2,0,1,3])); 
 
 /* 
 
