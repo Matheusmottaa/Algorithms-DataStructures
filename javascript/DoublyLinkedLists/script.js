@@ -111,31 +111,17 @@ class DoublyLinkedList{
     return item; 
   }
   reverse() {
-    let temp = this.head
-    this.head = this.tail
-    this.tail = temp
-
-    let current = this.head
-
-    while(current.prev) {
-      let temp = current.prev
-      current.prev = current.next
-      current.next = temp
-    
-      current = current.next
+    let current = this.head;
+    this.head = this.tail;
+    this.tail = current;
+    while (current) {
+      let next = current.next;
+      let prev = current.prev;
+      current.next = prev;
+      current.prev = next;
+      current = next;
     }
-
-    let currentTail = this.tail
-
-    while(currentTail.next) {
-      let temp = currentTail.next
-      currentTail.next = currentTail.prev
-      currentTail.prev = temp
-
-      currentTail = currentTail.prev
-    }
-
-    return this
+    return this;
   }
 }
 
