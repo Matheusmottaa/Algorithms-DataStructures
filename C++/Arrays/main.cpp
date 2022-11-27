@@ -3,6 +3,10 @@
 
 using namespace std; 
 
+void example1(); 
+void example2(); 
+
+
 int main()
 { 
 
@@ -57,4 +61,55 @@ int main()
       cout << "vector["<< i << "][" << j << "] = " << vector[i][j] << endl; 
 
   return 0; 
+}
+
+// 2D arrays in Heap. C language
+void example1()
+{ 
+    int *a[3];
+
+  a[0] = (int*) malloc(4*sizeof(int)); 
+  a[1] = (int*) malloc(4*sizeof(int)); 
+  a[2] = (int*) malloc(4*sizeof(int)); 
+
+  int i,j; 
+
+  int v= 2; 
+
+  for(i=0;i<3;i++){
+    for(j=0;j<4;j++)
+      a[i][j] = (j+v)*2; 
+    v++; 
+  }
+
+  for(i=0;i<3;i++){
+    for(j=0;j<4;j++)
+      printf("a[%d][%d] = %d\n", i,j,a[i][j]); 
+  }
+
+  
+}
+
+// 2d arrays in heap 
+void example2()
+{ 
+  int *a[3]; 
+  
+  a[0] = new int[4]; 
+  a[1] = new int[4]; 
+  a[2] = new int[4]; 
+
+  int v= 2; 
+
+  for(int i=0;i<3;i++){
+    for(int j=0;j<4;j++)
+      a[i][j] = (j+v)*2; 
+    v++; 
+  }
+
+  for(int i=0;i<3;i++){
+    for(int j=0;j<4;j++)
+      printf("a[%d][%d] = %d\n", i,j,a[i][j]); 
+  }
+
 }
