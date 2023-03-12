@@ -219,7 +219,6 @@ Array *merge(const Array *arr1, const Array *arr2)
 {
     Array *arr = (Array *)calloc(1,sizeof(Array)); 
     arr->capacity = arr1->capacity + arr2->capacity; 
-
     arr->v = (int*)calloc(arr->capacity,sizeof(int)); 
 
     for(int i=0;i<arr1->length;i++)
