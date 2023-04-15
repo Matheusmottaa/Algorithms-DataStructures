@@ -66,17 +66,24 @@ void print_3D(int ***m)
 {
     for(int k=0;k<2;k++)
     {
-        printf("&m[%d] = %p, m[%d] = %p\n\n", k,  &m[k], k, m[k]); 
-        printf("m + %d = %p, *(m+%d) = %p\n\n", k, m+k, k, *(m+k)); 
+        printf("------------- SLICES ----------\n"); 
+        printf("&m[%d] = %p, m[%d] = %p\n", k,  &m[k], k, m[k]); 
+        printf("m + %d = %p, *(m+%d) = %p\n", k, m+k, k, *(m+k)); 
+        printf("-------------------------------\n"); 
         for(int i=0;i<2;i++)
         {
-            printf("&m[%d][%d] = %p, m[%d][%d] = %p\n\n", k, i, &m[k][i], k, i, m[k][i]);
-            printf("*(m+%d)+%d = %p, *(*(m+%d)+%d) = %p\n\n", k, i, *(m+k)+i, k, i, *(*(m+k)+i)) ; 
+            puts("\n"); 
+            printf("------------- Row ------------\n"); 
+            printf("&m[%d][%d] = %p, m[%d][%d] = %p\n", k, i, &m[k][i], k, i, m[k][i]);
+            printf("*(m+%d)+%d = %p, *(*(m+%d)+%d) = %p\n", k, i, *(m+k)+i, k, i, *(*(m+k)+i)) ;
+            printf("-------------------------------\n"); 
             puts("\n"); 
             for(int j=0;j<3;j++)
             {
+                printf("------------- Column ------------\n");
                 printf("&m[%d][%d][%d] = %p, m[%d][%d][%d] = %d\n", k,i,j, &m[k][i][j], k, i, j, m[k][i][j]); 
                 printf("*(*(m+%d)+%d)+%d = %p, *(*(*(m+%d)+%d)+%d) = %d\n", k, i, j, *(*(m+k)+i)+j, k, i, j, *(*(*(m+k)+i)+j));    
+                printf("-------------------------------\n"); 
                 putchar('\n'); 
             }
             puts("\n"); 
