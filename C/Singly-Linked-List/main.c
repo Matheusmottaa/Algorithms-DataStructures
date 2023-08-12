@@ -1,5 +1,7 @@
 #include <stdio.h> 
 #include <stdlib.h>
+#include <limits.h>
+
 
 struct Node { 
     int data; 
@@ -22,6 +24,10 @@ void pushBack(struct SinglyLinkedList *, int);
 int removeBack(struct SinglyLinkedList *);
 void insertAt(struct SinglyLinkedList *, int , int ); 
 int removeAt(struct SinglyLinkedList *, int ); 
+int findMax(struct SinglyLinkedList*);
+int recursiveFindMax(struct Node *); 
+int countRecursive(struct Node *); 
+int sumOfAllElem(struct Node *); 
 
 int main()
 {
@@ -30,12 +36,13 @@ int main()
     const int arrLen = 7; 
     struct SinglyLinkedList *list = createFromAnArray(a, arrLen); 
     
-    insertAt(list,44 ,3); 
-    print(list); 
-    puts("\n"); 
-    printf("Remove an element at index 3: %d\n", removeAt(list, 3)); 
-    puts("\n"); 
-    print(list); 
+    // insertAt(list,44 ,3); 
+
+    print(list);
+    printf("The maximun element in the list is: %d\n", findMax(list)); 
+
+    
+    printf("sum of all elements: %d\n", sumOfAllElem(list->head)); 
 
 
     return 0; 
@@ -269,4 +276,43 @@ int removeAt(struct SinglyLinkedList *list, int idx)
     }
     fprintf(stderr, "Invalid Index\n"); 
     return; 
+}
+
+int findMax(struct SinglyLinkedList *list)
+{
+    struct Node *current = list->head; 
+    int max = INT_MIN; 
+    while(current != NULL)
+    {
+        if(max < current->data)
+            max = current->data; 
+        current = current->next; 
+    }
+    return max; 
+}
+
+int countRecursive(struct Node *node)
+{
+    if(node)
+    {
+        return countRecursive(node->next) + 1; 
+    }
+    return 0; 
+}
+
+int sumOfAllElem(struct Node *node)
+{
+    if(node)
+    {
+        return sumOfAllElem(node->next) + node->data; 
+    }
+    return 0; 
+}
+
+int recursiveFindMax(struct Node *p)
+{
+    if(p == NULL)
+        return INT_MIN; 
+    int max = recursiveFindMax(p->next); 
+    return max > p->data ? max : p->data; 
 }
