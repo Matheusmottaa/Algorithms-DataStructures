@@ -203,6 +203,14 @@ int removeBack(struct SinglyLinkedList *list)
         fprintf(stderr, "Empty List\n"); 
         return; 
     }
+    if(list->head->next == NULL) 
+    {
+        const int removedElem = list->head->data; 
+        free(list->head); 
+        list->length--; 
+        list->head = NULL; 
+        return removedElem; 
+    }
     struct Node *current = list->head; 
     while(current->next->next != NULL)
     {
