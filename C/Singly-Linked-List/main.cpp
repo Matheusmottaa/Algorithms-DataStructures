@@ -4,23 +4,6 @@
 
 using namespace std; 
 
-/*
-	createListFromVector - should create a list of element from a vector
-	insertFront - should insert a node in the beginning of the list.
-	insertBack - should insert a node in the end of the list.
-	insertAt - should insert a node in a position in the list.
-	deleteAt - should delete a node in a position in the list.
-	display - should display all the elements in the list.
-	isSorted - should return if the list is order or not.
-	removeDuplicates - should remove duplicate elements from the list.
-	removeDuplicatesFromSortedList - should remove duplciates elements from the list only if the list is sorted
-	reverse1 - Reversing the list but only the elements
-	reverse2 - Reversing the links of the list (nodes) sliding pointers techique.
-	reverse3 - Reversing the links using recursion.
-	findMin - using recurison
-	findMax - recursion and interative version
-*/
-
 struct Node
 {
 	int data;
