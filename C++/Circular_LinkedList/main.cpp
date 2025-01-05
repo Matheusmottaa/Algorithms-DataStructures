@@ -3,117 +3,164 @@
 
 using namespace std; 
 
+class IllegalOperation
+{
+private: 
+	string message; 
+public: 
+	IllegalOperation(string message)
+	{
+		this->message = message; 
+	}
+
+	string getMessage()
+	{
+		return message; 
+	}
+};
+
+
+template<typename T>
 struct Node
 {
-	int data;
-	struct Node* next;
+	T data; 
+	Node* next; 
 
-	Node(int data) : data(data), next(nullptr) {}
+	Node(T data): data(data), next(nullptr) {}
+};
 
-}*head = nullptr; 
+template<typename T>
+class CircularList
+{
+private: 
+	Node<T>* head; 
+public: 
+	CircularList(); 
+	~CircularList(); 
+	void createListFromVector(const vector<T>&); 
+	size_t size(); 
+	void insertAt(T, int); 
+	T removeAt(int); 
+	void display(); 
+	void reverse(); 
+};
 
-void createListFromVector(const vector<int>&);
-void display();
-void print(Node*);
-void insertAt(int, int);
-int removeAt(int); 
-size_t size();  
-void reverse(); 
 
 int main()
 {
-	vector<int> vec; 
-	vec.push_back(2); 
-	vec.push_back(4); 
-	vec.push_back(7); 
+	vector<string> vec; 
+	vec.push_back("Gon"); 
+	vec.push_back("Netero"); 
+	vec.push_back("Killua");
 
-	createListFromVector(vec);
-	insertAt(1, 12); 
-	print(head); 
+	try
+	{
+		CircularList<string> list;
+		list.createListFromVector(vec); 
+		list.insertAt("Leorio", 1);
+		list.display();
+		cout << "Size of the list: " << list.size() << endl;
 
-	cout << endl; 
+		cout << endl;
 
-	reverse(); 
-	display(); 
+		list.reverse(); 
+		list.display(); 
+		cout << "Size of the list: " << list.size() << endl;
+	}
+	catch (IllegalOperation e)
+	{
+		cout << e.getMessage() << endl;
+	}
 	
-	cout << "List length: " << size() << endl; 
-	
-	cout << endl; 
-
-	cout << "Removing an elment at position 1: " << removeAt(1) << endl; 
-	display(); 
-	cout << "List length: " << size() << endl; 
-
 	return 0; 
 }
 
-void createListFromVector(const vector<int>& v)
+template<typename T> 
+CircularList<T>::CircularList()
+{
+	this->head = nullptr; 
+}
+
+template<typename T> 
+CircularList<T>::~CircularList()
+{
+	if (head == nullptr)
+		return; 
+
+	struct Node<T>* current = head; 
+	struct Node<T>* aux = nullptr; 
+	do
+	{
+		aux = current->next; 
+		delete current; 
+		current = aux; 
+	} while (current != head);
+	head = nullptr; 
+}
+
+
+template<typename T> 
+void CircularList<T>::createListFromVector(const vector<T>& v)
 {
 	if (v.size() > 0)
 	{
-		head = new Node(v[0]); 
-		head->next = head; 
-		Node* current = head, * newNode = nullptr; 
+		this->head = new Node<T>(v[0]); 
+		this->head->next = head; 
+		Node<T>* current = head, * temp = nullptr; 
 		for (size_t i = 1; i < v.size(); ++i)
 		{
-			newNode = new Node(v[i]);
-			current->next = newNode; 
-			current = newNode; 
+			temp = new Node<T>(v[i]); 
+			current->next = temp; 
+			current = temp; 
 		}
-		current->next = head; 
+		current->next = this->head; 
 	}
+	else
+		throw IllegalOperation("It's not possible to create a list from an empty vector!"); 
 }
 
-void display()
+template<typename T> 
+void CircularList<T>::display()
 {
-	if (head == nullptr) return; 
+	if (this->head == nullptr) return; 
 
-	Node* p = head;  
+	Node<T>* current = this->head; 
 	do
 	{
-		cout << p->data << endl; 
-		p = p->next; 
-	} while (p != head); 
+		cout << current->data << endl; 
+		current = current->next; 
+	} while (current != head); 
 }
 
-void print(Node* p)
+template<typename T> 
+size_t CircularList<T>::size()
 {
-	cout << p->data << endl;
-	if (p->next != head)
-		print(p->next);
-}
-
-size_t size()
-{
-	if (head == nullptr)
+	if (this->head == nullptr)
 		return 0; 
-	struct Node* p = head; 
+	struct Node<T>* current = this->head; 
 	size_t i = 0; 
 	do
 	{
-		p = p->next; 
-		++i; 
-	} while (p != head);
+		i++; 
+		current = current->next; 
+	} while (current != head);
 	return i; 
 }
 
-void insertAt(int pos, int elem)
+template<typename T>
+void CircularList<T>::insertAt(T elem, int pos)
 {
-	Node* newNode = new Node(elem), * current = head; 
-	if (pos<1 || pos>size() + 1)
-	{
-		cerr << "Invalid Position\n"; 
-		return; 
-	}
+	if (pos<1 || pos>size() + 1) throw IllegalOperation("Invalid position!"); 
 
+	Node<T>* newNode = new Node<T>(elem); 
 	if (head == nullptr)
 	{
-		cout << "Entrou\n"; 
 		newNode->next = newNode; 
 		head = newNode; 
 	}
-	else if (pos == 1 && head != nullptr)
+	else if (pos == 1)
 	{
+		Node<T>* current = head; 
 		while (current->next != head)
 			current = current->next; 
 		current->next = newNode; 
@@ -122,18 +169,68 @@ void insertAt(int pos, int elem)
 	}
 	else
 	{
+		struct Node<T>* current = head; 
 		for (size_t i = 0; i < pos - 2; ++i)
 			current = current->next; 
 		newNode->next = current->next; 
 		current->next = newNode; 
-	}	
+	}
 }
 
-void reverse()
+template<typename T> 
+T CircularList<T>::removeAt(int pos)
 {
-	if (!head || head->next == head) return; 
+	if (pos<1 || pos>size()) throw IllegalOperation("Invalid Position!"); 
 
-	Node* current = head, * prev = nullptr, * next = nullptr; 
+	if (head == nullptr)
+		throw IllegalOperation("Invalid Operation, list is empty!"); 
+
+	Node<T>* removed = nullptr; 
+	Node<T>* current = nullptr; 
+	T removedData; 
+	
+	if (pos == 1)
+	{
+		if (head->next == head)
+		{
+			removedData = this->head->data; 
+			delete head; 
+			head = nullptr; 
+			return removedData; 
+		}
+		else
+		{
+			current = head;
+			removed= head;
+			while (current->next != head)
+				current = current->next; 
+			
+			current->next = head->next; 
+			head = head->next; 
+			removedData = removed->data;
+			delete removed;  
+			return removedData; 
+		}
+	}
+	else
+	{
+		current = head; 
+		for (size_t i = 0; i < pos - 2; ++i)
+			current = current->next; 
+		removed = current->next; 
+		current->next = removed->next; 
+		removedData = removed->data; 
+		delete removed; 
+		return removedData; 
+	}
+
+}
+
+template<typename T> 
+void CircularList<T>::reverse()
+{
+	if (!head || !head->next) return; 
+	Node<T>* current = this->head, * prev = nullptr, * next = nullptr; 
 	do
 	{
 		next = current->next; 
@@ -141,54 +238,6 @@ void reverse()
 		prev = current; 
 		current = next; 
 	} while (current != head);
-	head->next = prev; 
+	current->next = prev; 
 	head = prev; 
-}
-
-int removeAt(int pos)
-{
-	if (pos<1 || pos>size())
-	{
-		cerr << "Invalid Position\n"; 
-		exit(EXIT_FAILURE);
-	}
-
-	if (head == nullptr)
-	{
-		cerr << "Empty List\n"; 
-		exit(EXIT_FAILURE); 
-	}
-	struct Node* removedNode = nullptr;
-	struct Node* current = head; 
-	int rdata = 0; 
-	if (pos == 1)
-	{
-		removedNode = head;
-		rdata = removedNode->data; 
-		while (current->next != head)
-			current = current->next; 
-		if (current == head)
-		{
-			delete head; 
-			head = nullptr;
-			return rdata; 
-		}
-		else
-		{
-			current->next = head->next; 
-			head = removedNode->next; 
-			delete removedNode; 
-			return rdata;
-		}
-	}
-	else
-	{
-		for (size_t i = 0; i < pos - 2; ++i)
-			current = current->next; 
-		removedNode = current->next; 
-		current->next = removedNode->next; 
-		rdata = removedNode->data; 
-		delete removedNode; 
-		return rdata; 
-	}
 }
