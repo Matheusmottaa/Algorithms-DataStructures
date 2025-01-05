@@ -28,7 +28,7 @@ int main()
 	vec.push_back(7); 
 
 	createListFromVector(vec);
-	insertAt(4, 12); 
+	insertAt(1, 12); 
 	print(head); 
 
 	cout << endl; 
@@ -40,7 +40,7 @@ int main()
 	
 	cout << endl; 
 
-	cout << "Removing an elment at position 3: " << removeAt(3) << endl; 
+	cout << "Removing an elment at position 1: " << removeAt(1) << endl; 
 	display(); 
 	cout << "List length: " << size() << endl; 
 
@@ -66,6 +66,8 @@ void createListFromVector(const vector<int>& v)
 
 void display()
 {
+	if (head == nullptr) return; 
+
 	Node* p = head;  
 	do
 	{
@@ -83,6 +85,8 @@ void print(Node* p)
 
 size_t size()
 {
+	if (head == nullptr)
+		return 0; 
 	struct Node* p = head; 
 	size_t i = 0; 
 	do
@@ -96,7 +100,6 @@ size_t size()
 void insertAt(int pos, int elem)
 {
 	Node* newNode = new Node(elem), * current = head; 
-
 	if (pos<1 || pos>size() + 1)
 	{
 		cerr << "Invalid Position\n"; 
@@ -105,6 +108,7 @@ void insertAt(int pos, int elem)
 
 	if (head == nullptr)
 	{
+		cout << "Entrou\n"; 
 		newNode->next = newNode; 
 		head = newNode; 
 	}
@@ -163,11 +167,19 @@ int removeAt(int pos)
 		rdata = removedNode->data; 
 		while (current->next != head)
 			current = current->next; 
-
-		head = removedNode->next; 
-		current->next = head;
-		delete removedNode; 
-		return rdata; 
+		if (current == head)
+		{
+			delete head; 
+			head = nullptr;
+			return rdata; 
+		}
+		else
+		{
+			current->next = head->next; 
+			head = removedNode->next; 
+			delete removedNode; 
+			return rdata;
+		}
 	}
 	else
 	{
