@@ -109,12 +109,10 @@ void insertAt(int pos, int elem)
 	newNode->data = elem; 
 	if (pos == 1)
 	{
-		newNode->next = first; 
-		if (first == nullptr)
-			newNode->prev = nullptr;
-		else
-			first->prev = newNode; 
-
+		newNode->next = first;
+        newNode->prev = nullptr; 
+		if (first != nullptr)
+			first->prev = newNode;
 		first = newNode; 
 	}
 	else
