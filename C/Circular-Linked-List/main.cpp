@@ -108,7 +108,6 @@ void insertAt(int pos, int elem)
 
 	if (head == nullptr)
 	{
-		cout << "Entrou\n"; 
 		newNode->next = newNode; 
 		head = newNode; 
 	}
