@@ -8,7 +8,7 @@ class Error
 private: 
 	string message; 
 public: 
-	Error(string message)
+	Error(const string& message)
 	{
 		this->message = message; 
 	}
