@@ -16,6 +16,10 @@ int isEmpty();
 int isFull(); 
 size_t size(); 
 int isBalence(const char *); 
+int isBalence(const char*);
+int isOperand(char); 
+int precedence(char);
+
 
 int main()
 {
@@ -138,4 +142,44 @@ int isBalence(const char* exp)
 		}
 	}
 	return isEmpty() ? 1 : 0; 
+}
+
+int isOperand(char x)
+{
+	return x != '*' && x != '/'  && x != '+' && x != '-';
+}
+
+int precedence(char x)
+{
+	if (x == '+' || x == '-')
+		return 1;
+	else if (x == '*' || x == '/')
+		return 2; 
+	return 0; 
+}
+
+char* convert(const char* infix)
+{
+	char* postfix = (char*)malloc(sizeof(char) * strlen(infix) + 1); 
+	int i = 0, j = 0; 
+
+	while (infix[i] != '\0')
+	{
+		if (isOperand(infix[i]))
+			postfix[j++] = infix[i++]; 
+		else
+		{
+			if (isEmpty() || precedence(infix[i]) > precedence(top->data))
+				push(infix[i++]);
+			else
+				postfix[j++] = pop(); 
+		}
+	}
+
+	while (top != NULL)
+	{
+		postfix[j++] = pop(); 
+	}
+	postfix[j] = '\0'; 
+	return postfix; 
 }
