@@ -87,6 +87,7 @@ int dequeue(Queue* q)
 	struct Node* r = q->first; 
 	int elem = r->data; 
 	q->first = q->first->next; 
+	q->size--; 
 	free(r); 
 	return elem; 
 }
